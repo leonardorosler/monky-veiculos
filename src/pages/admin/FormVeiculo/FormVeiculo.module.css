@@ -1,0 +1,96 @@
+.container {
+  min-height: 100vh;
+  background-color: #f5f5f5;
+}
+
+.main {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.topo {
+  margin-bottom: 2rem;
+}
+
+.titulo {
+  margin: 0;
+
+  font-size: 1.8rem;
+  color: #1a1a1a;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.erro {
+  padding: 0.75rem;
+
+  background-color: #fee2e2;
+  color: #dc2626;
+
+  border-radius: 6px;
+
+  font-size: 0.9rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns:
+    repeat(auto-fit, minmax(200px, 1fr));
+
+  gap: 1rem;
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #444;
+}
+
+.input {
+  padding: 0.7rem;
+
+  background-color: #fff;
+
+  border: 1px solid #ddd;
+  border-radius: 6px;
+
+  font-size: 0.95rem;
+}
+
+.textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.infoFotos {
+  margin: 0;
+
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.botaoPrimario {
+  padding: 0.9rem 1.2rem;
+
+  background-color: #1a1a1a;
+  color: #fff;
+
+  border: none;
+  border-radius: 6px;
+
+  font-size: 1rem;
+  font-weight: 600;
+
+  cursor: pointer;
+}

@@ -1,0 +1,193 @@
+.container {
+  min-height: 100vh;
+  background-color: #f5f5f5;
+}
+
+.main {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.topo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.titulo {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #1a1a1a;
+}
+
+.botaoVoltar {
+  padding: 0.45rem 0.9rem;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: 0.2s;
+}
+
+.botaoVoltar:hover {
+  background-color: #f3f4f6;
+}
+
+.filtros {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.filtroBotao {
+  padding: 0.55rem 1rem;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: 0.2s;
+}
+
+.filtroBotao:hover {
+  background-color: #f3f4f6;
+}
+
+.filtroAtivo {
+  background-color: #1a1a1a;
+  color: #fff;
+  border-color: #1a1a1a;
+}
+
+.vazio {
+  text-align: center;
+  color: #666;
+}
+
+.lista {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.card {
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 1.25rem;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+.cardLido {
+  opacity: 0.6;
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.cardAcoes {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.5rem;
+}
+
+.tagVender {
+  background-color: #dbeafe;
+  color: #1d4ed8;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.tagFinanciamento {
+  background-color: #dcfce7;
+  color: #15803d;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.nome {
+  margin: 0.5rem 0 0.25rem;
+  font-size: 1rem;
+  color: #1a1a1a;
+}
+
+.contato {
+  margin: 0;
+  color: #666;
+  font-size: 0.85rem;
+}
+
+.data {
+  font-size: 0.8rem;
+  color: #999;
+}
+
+.botaoLido {
+  padding: 0.35rem 0.75rem;
+  background-color: #f0f0f0;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: 0.2s;
+}
+
+.botaoLido:hover {
+  background-color: #e5e7eb;
+}
+
+.dados {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  border-top: 1px solid #f0f0f0;
+  padding-top: 1rem;
+}
+
+.dado {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  min-width: 120px;
+}
+
+.dadoLabel {
+  font-size: 0.75rem;
+  color: #999;
+  text-transform: capitalize;
+}
+
+.dadoValor {
+  font-size: 0.9rem;
+  color: #1a1a1a;
+  font-weight: 500;
+}
+
+@media (max-width: 768px) {
+  .cardHeader {
+    flex-direction: column;
+  }
+
+  .cardAcoes {
+    align-items: flex-start;
+  }
+
+  .topo {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+}

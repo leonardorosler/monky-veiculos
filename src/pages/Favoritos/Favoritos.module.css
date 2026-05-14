@@ -1,0 +1,208 @@
+.container {
+  min-height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+
+  background: #f8fafc;
+}
+
+.main {
+  width: 100%;
+  max-width: 1280px;
+
+  margin: 0 auto;
+  padding: 3rem 1rem 5rem;
+}
+
+/* HERO */
+
+.hero {
+  margin-bottom: 3rem;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  text-align: center;
+}
+
+.badge {
+  margin-bottom: 1rem;
+  padding: 0.55rem 1rem;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  background: #eff6ff;
+  color: #2563eb;
+
+  border: 1px solid #bfdbfe;
+  border-radius: 999px;
+
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.titulo {
+  margin: 0;
+
+  color: #0f172a;
+
+  font-size: 3rem;
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.06em;
+}
+
+.descricao {
+  max-width: 620px;
+
+  margin-top: 1rem;
+
+  color: #64748b;
+
+  font-size: 1.05rem;
+  line-height: 1.8;
+}
+
+/* TOPO */
+
+.topoLista {
+  margin-bottom: 1.5rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.resultado {
+  color: #475569;
+
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+/* GRID */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(280px, 1fr)
+  );
+
+  gap: 1.5rem;
+
+  align-items: start;
+}
+
+/* LOADING */
+
+.loading {
+  width: 100%;
+
+  display: flex;
+  justify-content: center;
+
+  padding: 5rem 0;
+}
+
+/* ESTADO VAZIO */
+
+.vazio {
+  width: 100%;
+  max-width: 620px;
+
+  margin: 0 auto;
+  padding: 4rem 2rem;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+
+  text-align: center;
+
+  background: #ffffff;
+
+  border: 1px solid #e2e8f0;
+  border-radius: 32px;
+
+  box-shadow:
+    0 18px 50px rgb(15 23 42 / 0.05);
+}
+
+.vazioIcone {
+  width: 84px;
+  height: 84px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #eff6ff;
+  color: #2563eb;
+
+  border-radius: 50%;
+}
+
+.vazio h2 {
+  margin: 0;
+
+  color: #0f172a;
+
+  font-size: 1.8rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+}
+
+.vazio p {
+  max-width: 420px;
+
+  margin: 0;
+
+  color: #64748b;
+
+  line-height: 1.8;
+  font-size: 1rem;
+}
+
+/* RESPONSIVO */
+
+@media (max-width: 768px) {
+  .main {
+    padding: 2rem 1rem 4rem;
+  }
+
+  .hero {
+    margin-bottom: 2.5rem;
+  }
+
+  .titulo {
+    font-size: 2.2rem;
+  }
+
+  .descricao {
+    font-size: 1rem;
+  }
+
+  .grid {
+    gap: 1rem;
+  }
+
+  .vazio {
+    padding: 3rem 1.5rem;
+  }
+
+  .vazio h2 {
+    font-size: 1.5rem;
+  }
+}
+
+@media (hover: none) {
+  .badge:hover {
+    transform: none;
+  }
+}
