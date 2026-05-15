@@ -16,6 +16,7 @@ function getStoredAuth() {
   const token = localStorage.getItem('token')
   const usuario = localStorage.getItem('usuario')
 
+  
   if (!token || !usuario) {
     return { token: null, usuario: null }
   }
@@ -45,12 +46,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   return (
+   
     <AuthContext.Provider
       value={{
         usuario: authState.usuario,
         token: authState.token,
         login,
         logout,
+        // isAuthenticated é um indicador simples: true se houver token, false se não
         isAuthenticated: !!authState.token,
       }}
     >

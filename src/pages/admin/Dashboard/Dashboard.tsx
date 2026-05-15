@@ -1,16 +1,16 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import api from '../../../api/axios'
 import { useAuth } from '../../../contexts/AuthContext'
+import api from '../../../api/axios'
 import type { Dashboard as DashboardType } from '../../../types'
 import { Spinner } from '../../../components/Spinner/Spinner'
-import { NavBar } from '../../../components/NavBar/NavBar'
-import styles from './Dashboard.module.css'
 import { AdminNavBar } from '../../../components/AdminNavBar/AdminNavBar'
+import styles from './Dashboard.module.css'
 
 export function Dashboard() {
   const [dados, setDados] = useState<DashboardType | null>(null)
   const [carregando, setCarregando] = useState(true)
+
   const { usuario, logout } = useAuth()
   const navigate = useNavigate()
 
@@ -21,15 +21,7 @@ export function Dashboard() {
       .finally(() => setCarregando(false))
   }, [])
 
-  function handleLogout() {
-    logout()
-
-    navigate('/admin/login')
-  }
-
-  if (carregando) {
-    return <Spinner />
-  }
+  if (carregando) return <Spinner />
 
   return (
     <div className={styles.container}>
@@ -39,11 +31,10 @@ export function Dashboard() {
         <div className={styles.topo}>
           <div>
             <h1 className={styles.titulo}>Painel Admin</h1>
-
-            <p className={styles.usuario}>Logado como {usuario?.nome}</p>
+            <p className={styles.subtitulo}>Olá, {usuario?.nome}</p>
           </div>
 
-          <button onClick={handleLogout} className={styles.botaoLogout}>
+          <button onClick={logout} className={styles.logout}>
             Sair
           </button>
         </div>
@@ -64,27 +55,23 @@ export function Dashboard() {
 
         <div className={styles.cards}>
           <div className={styles.card}>
-            <span className={styles.cardValor}>{dados?.total ?? '-'}</span>
-
-            <span className={styles.cardLabel}>Total de Veículos</span>
+            <span className={styles.valor}>{dados?.total ?? '-'}</span>
+            <span className={styles.label}>Total de Veículos</span>
           </div>
 
           <div className={styles.card}>
-            <span className={styles.cardValor}>{dados?.ativos ?? '-'}</span>
-
-            <span className={styles.cardLabel}>Disponíveis</span>
+            <span className={styles.valor}>{dados?.ativos ?? '-'}</span>
+            <span className={styles.label}>Disponíveis</span>
           </div>
 
           <div className={styles.card}>
-            <span className={styles.cardValor}>{dados?.vendidos ?? '-'}</span>
-
-            <span className={styles.cardLabel}>Vendidos</span>
+            <span className={styles.valor}>{dados?.vendidos ?? '-'}</span>
+            <span className={styles.label}>Vendidos</span>
           </div>
 
           <div className={styles.card}>
-            <span className={styles.cardValor}>{dados?.destaques ?? '-'}</span>
-
-            <span className={styles.cardLabel}>Destaques</span>
+            <span className={styles.valor}>{dados?.destaques ?? '-'}</span>
+            <span className={styles.label}>Destaques</span>
           </div>
         </div>
       </main>

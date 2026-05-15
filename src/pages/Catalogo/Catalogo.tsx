@@ -7,7 +7,7 @@ import type { Veiculo } from '../../types'
 import styles from './Catalogo.module.css'
 
 const SESSION_KEY = 'catalogo_session_id'
-const marcasPopulares = ['Toyota', 'Honda', 'Volkswagen', 'Chevrolet', 'Hyundai', 'Fiat', 'Jeep', 'BMW', 'Audi', 'Mercedes-Benz']
+const marcasPopulares = ['Todas', 'Toyota', 'Honda', 'Volkswagen', 'Chevrolet', 'Hyundai', 'Fiat', 'Jeep', 'BMW', 'Audi', 'Mercedes-Benz']
 
 const combustiveis = ['GASOLINA', 'ETANOL', 'FLEX', 'DIESEL', 'ELETRICO', 'HIBRIDO']
 const cambios = ['MANUAL', 'AUTOMATICO', 'CVT']
@@ -150,21 +150,26 @@ export function Catalogo() {
               <label className={styles.label}>Marca</label>
 
               <div className={styles.marcasGrid}>
-                {marcasPopulares.map((marca) => (
-                  <button
-                    key={marca}
-                    type="button"
-                    onClick={() =>
-                      setFiltros((p) => ({
-                        ...p,
-                        marca,
-                      }))
-                    }
-                    className={`${styles.marcaItem} ${filtros.marca === marca ? styles.marcaAtiva : ''}`}
-                  >
-                    {marca}
-                  </button>
-                ))}
+                {marcasPopulares.map((marca) => {
+                  const ativo = (marca === 'Todas' && !filtros.marca) || filtros.marca === marca
+
+                  return (
+                    <button
+                      key={marca}
+                      type="button"
+                      aria-pressed={ativo}
+                      onClick={() =>
+                        setFiltros((prev) => ({
+                          ...prev,
+                          marca: marca === 'Todas' ? '' : marca,
+                        }))
+                      }
+                      className={`${styles.marcaItem} ${ativo ? styles.marcaAtiva : ''}`}
+                    >
+                      {marca}
+                    </button>
+                  )
+                })}
               </div>
             </div>
 
