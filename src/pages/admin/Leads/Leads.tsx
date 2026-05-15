@@ -6,6 +6,7 @@ import { Spinner } from '../../../components/Spinner/Spinner'
 import styles from './Leads.module.css'
 import { AdminNavBar } from '../../../components/AdminNavBar/AdminNavBar'
 import { AdminVoltar } from '../../../components/AdminVoltar/AdminVoltar'
+import { MessageCircleCheck, Circle, CircleCheck } from 'lucide-react'
 
 interface Lead {
   id: string
@@ -56,65 +57,101 @@ export function Leads() {
       <AdminNavBar />
 
       <main className={styles.main}>
-        <div className={styles.topo}>
-          <AdminVoltar />
+        <div className={styles.header}>
+          <div className={styles.left}>
+            <div>
+              <h1 className={styles.titulo}>Leads</h1>
 
-          <h1 className={styles.titulo}>Leads</h1>
+              <p className={styles.subtitulo}>Gerencie os contatos recebidos</p>
+            </div>
+          </div>
+
+          <div className={styles.right}>
+            <AdminVoltar />
+
+            <div className={styles.dropdown}>
+              <button className={styles.botaoPrimario}>+ Novo lead</button>
+
+              <div className={styles.dropdownMenu}>
+                <button onClick={() => navigate('/vender-meu-carro')}>Vender carro</button>
+
+                <button onClick={() => navigate('/financiamento')}>Financiamento</button>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div className={styles.filtros}>
           {(['TODOS', 'VENDER_CARRO', 'FINANCIAMENTO'] as const).map((f) => (
             <button key={f} onClick={() => setFiltro(f)} className={`${styles.filtroBotao} ${filtro === f ? styles.filtroAtivo : ''}`}>
-              {f === 'TODOS' ? 'Todos' : f === 'VENDER_CARRO' ? 'Vender Carro' : 'Financiamento'}
+              {f === 'TODOS' ? 'Todos' : f === 'VENDER_CARRO' ? 'Vender carro' : 'Financiamento'}
             </button>
           ))}
         </div>
 
-        {leadsFiltrados.length === 0 ? (
-          <p className={styles.vazio}>Nenhum lead encontrado.</p>
-        ) : (
-          <div className={styles.lista}>
-            {leadsFiltrados.map((lead) => (
-              <div key={lead.id} className={`${styles.card} ${lead.lido ? styles.cardLido : ''}`}>
-                <div className={styles.cardHeader}>
-                  <div>
-                    <span className={lead.tipo === 'VENDER_CARRO' ? styles.tagVender : styles.tagFinanciamento}>
-                      {lead.tipo === 'VENDER_CARRO' ? 'Vender Carro' : 'Financiamento'}
-                    </span>
+        <div className={styles.card}>
+          {leadsFiltrados.length === 0 ? (
+            <p className={styles.vazio}>Nenhum lead encontrado.</p>
+          ) : (
+            <div className={styles.lista}>
+              {leadsFiltrados.map((lead) => (
+                <div key={lead.id} className={`${styles.leadCard} ${lead.lido ? styles.cardLido : ''}`}>
+                  <div className={styles.cardHeader}>
+                    <div>
+                      <span className={lead.tipo === 'VENDER_CARRO' ? styles.tagVender : styles.tagFinanciamento}>
+                        {lead.tipo === 'VENDER_CARRO' ? 'Vender Carro' : 'Financiamento'}
+                      </span>
 
-                    <h3 className={styles.nome}>{lead.nome}</h3>
+                      <h3 className={styles.nome}>{lead.nome}</h3>
 
-                    <p className={styles.contato}>
-                      📞 {lead.telefone}
-                      {lead.email && ` · ✉️ ${lead.email}`}
-                    </p>
+                      <p className={styles.contato}>
+                        📞 {lead.telefone}
+                        {lead.email && ` · ✉️ ${lead.email}`}
+                      </p>
+                    </div>
+
+                    <div className={styles.cardAcoes}>
+                      <span className={styles.data}>{new Date(lead.criadoEm).toLocaleDateString('pt-BR')}</span>
+                    </div>
                   </div>
 
-                  <div className={styles.cardAcoes}>
-                    <span className={styles.data}>{new Date(lead.criadoEm).toLocaleDateString('pt-BR')}</span>
+                  <div className={styles.dados}>
+                    {Object.entries(lead.dados).map(
+                      ([k, v]) =>
+                        v && (
+                          <div key={k} className={styles.dado}>
+                            <span className={styles.dadoLabel}>{k.replace(/([A-Z])/g, ' $1').toLowerCase()}</span>
 
-                    <button onClick={() => handleLido(lead.id)} className={styles.botaoLido}>
-                      {lead.lido ? 'Marcar não lido' : 'Marcar lido'}
+                            <span className={styles.dadoValor}>{v}</span>
+                          </div>
+                        )
+                    )}
+                  </div>
+                  <div className={styles.footer}>
+                    <a href={`https://wa.me/55${lead.telefone.replace(/\D/g, '')}`} target="_blank" rel="noreferrer" className={styles.botaoWhatsapp}>
+                      <MessageCircleCheck size={16} />
+                      WhatsApp
+                    </a>
+
+                    <button onClick={() => handleLido(lead.id)} className={`${styles.botaoLido} ${lead.lido ? styles.botaoLidoAtivo : ''}`}>
+                      {lead.lido ? (
+                        <>
+                          <CircleCheck size={16} />
+                          Conlcuído
+                        </>
+                      ) : (
+                        <>
+                          <Circle size={16} />
+                          Marcar lido
+                        </>
+                      )}
                     </button>
                   </div>
                 </div>
-
-                <div className={styles.dados}>
-                  {Object.entries(lead.dados).map(
-                    ([k, v]) =>
-                      v && (
-                        <div key={k} className={styles.dado}>
-                          <span className={styles.dadoLabel}>{k.replace(/([A-Z])/g, ' $1').toLowerCase()}</span>
-
-                          <span className={styles.dadoValor}>{v}</span>
-                        </div>
-                      )
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
+              ))}
+            </div>
+          )}
+        </div>
       </main>
     </div>
   )

@@ -2,19 +2,16 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import api from '../../../api/axios'
-
 import type { Veiculo } from '../../../types'
 
 import { Spinner } from '../../../components/Spinner/Spinner'
-import { NavBar } from '../../../components/NavBar/NavBar'
-
-import styles from './Estoque.module.css'
 import { AdminNavBar } from '../../../components/AdminNavBar/AdminNavBar'
 import { AdminVoltar } from '../../../components/AdminVoltar/AdminVoltar'
 
+import styles from './Estoque.module.css'
+
 export function Estoque() {
   const [veiculos, setVeiculos] = useState<Veiculo[]>([])
-
   const [carregando, setCarregando] = useState(true)
 
   const navigate = useNavigate()
@@ -26,7 +23,6 @@ export function Estoque() {
   async function carregarEstoque() {
     try {
       const { data } = await api.get<Veiculo[]>('/admin/estoque')
-
       setVeiculos(data)
     } finally {
       setCarregando(false)
@@ -34,117 +30,213 @@ export function Estoque() {
   }
 
   async function handleDeletar(id: string) {
-    if (!confirm('Deseja remover este veículo?')) {
-      return
-    }
-
+    if (!confirm('Deseja remover este veículo?')) return
     await api.delete(`/veiculos/${id}`)
-
     setVeiculos((prev) => prev.filter((v) => v.id !== id))
   }
 
   async function handleDestaque(id: string) {
     const { data } = await api.patch<Veiculo>(`/veiculos/${id}/destaque`)
-
     setVeiculos((prev) => prev.map((v) => (v.id === id ? data : v)))
   }
 
   async function handleVendido(id: string) {
     const { data } = await api.patch<Veiculo>(`/veiculos/${id}/vendido`)
-
     setVeiculos((prev) => prev.map((v) => (v.id === id ? data : v)))
   }
 
-  if (carregando) {
-    return <Spinner />
-  }
+  if (carregando) return <Spinner />
 
   return (
     <div className={styles.container}>
       <AdminNavBar />
 
-      <AdminVoltar />
       <main className={styles.main}>
-        <div className={styles.topo}>
-          <h1 className={styles.titulo}>Estoque</h1>
+        <div className={styles.header}>
+  <div className={styles.left}>
+    <div>
+      <h1 className={styles.titulo}>Estoque</h1>
+      <p className={styles.subtitulo}>Gerencie seus veículos</p>
+    </div>
+  </div>
 
-          <button onClick={() => navigate('/admin/veiculos/novo')} className={styles.botaoPrimario}>
-            + Novo Veículo
-          </button>
-        </div>
+  <div className={styles.right}>
+    <AdminVoltar />
 
-        {veiculos.length === 0 ? (
-          <p className={styles.vazio}>Nenhum veículo cadastrado.</p>
-        ) : (
-          <div className={styles.tabelaWrapper}>
-            <table className={styles.tabela}>
-              <thead>
-                <tr>
-                  <th className={styles.th}>Veículo</th>
+    <button
+      onClick={() => navigate('/admin/veiculos/novo')}
+      className={styles.botaoPrimario}
+    >
+      + Novo veículo
+    </button>
+  </div>
+</div>
 
-                  <th className={styles.th}>Ano</th>
+        <div className={styles.card}>
+  {veiculos.length === 0 ? (
+    <p className={styles.vazio}>Nenhum veículo cadastrado.</p>
+  ) : (
+    <>
+      <div className={styles.desktopTable}>
+        <table className={styles.tabela}>
+          <thead>
+            <tr>
+              <th>Veículo</th>
+              <th>Ano</th>
+              <th>Preço</th>
+              <th>KM</th>
+              <th>Status</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
 
-                  <th className={styles.th}>Preço</th>
+          <tbody>
+            {veiculos.map((v) => (
+              <tr key={v.id}>
+                <td>
+                  <strong>
+                    {v.marca} {v.modelo}
+                  </strong>
+                </td>
 
-                  <th className={styles.th}>KM</th>
+                <td>{v.ano}</td>
 
-                  <th className={styles.th}>Status</th>
+                <td>
+                  {v.preco.toLocaleString('pt-BR', {
+                    style: 'currency',
+                    currency: 'BRL',
+                  })}
+                </td>
 
-                  <th className={styles.th}>Ações</th>
-                </tr>
-              </thead>
+                <td>{v.km.toLocaleString('pt-BR')} km</td>
 
-              <tbody>
-                {veiculos.map((v) => (
-                  <tr key={v.id} className={styles.tr}>
-                    <td className={styles.td}>
-                      <strong>
-                        {v.marca} {v.modelo}
-                      </strong>
-                    </td>
+                <td>
+                  <span
+                    className={
+                      v.vendido
+                        ? styles.tagVendido
+                        : v.destaque
+                        ? styles.tagDestaque
+                        : styles.tagAtivo
+                    }
+                  >
+                    {v.vendido
+                      ? 'Vendido'
+                      : v.destaque
+                      ? 'Destaque'
+                      : 'Ativo'}
+                  </span>
+                </td>
 
-                    <td className={styles.td}>{v.ano}</td>
+                <td>
+                  <div className={styles.acoes}>
+                    <button
+                      onClick={() =>
+                        navigate(`/admin/veiculos/${v.id}/editar`)
+                      }
+                    >
+                      Editar
+                    </button>
 
-                    <td className={styles.td}>
-                      {v.preco.toLocaleString('pt-BR', {
-                        style: 'currency',
-                        currency: 'BRL',
-                      })}
-                    </td>
+                    <button onClick={() => handleDestaque(v.id)}>
+                      {v.destaque ? 'Remover' : 'Destacar'}
+                    </button>
 
-                    <td className={styles.td}>{v.km.toLocaleString('pt-BR')} km</td>
+                    <button onClick={() => handleVendido(v.id)}>
+                      {v.vendido ? 'Reativar' : 'Vendido'}
+                    </button>
 
-                    <td className={styles.td}>
-                      <span className={v.vendido ? styles.tagVendido : v.destaque ? styles.tagDestaque : styles.tagAtivo}>
-                        {v.vendido ? 'Vendido' : v.destaque ? 'Destaque' : 'Ativo'}
-                      </span>
-                    </td>
+                    <button
+                      onClick={() => handleDeletar(v.id)}
+                      className={styles.danger}
+                    >
+                      Remover
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
-                    <td className={styles.td}>
-                      <div className={styles.acoes}>
-                        <button onClick={() => navigate(`/admin/veiculos/${v.id}/editar`)} className={styles.botaoAcao}>
-                          Editar
-                        </button>
+      <div className={styles.mobileCards}>
+        {veiculos.map((v) => (
+          <div key={v.id} className={styles.mobileCard}>
+            <div className={styles.mobileTop}>
+              <h3>
+                {v.marca} {v.modelo}
+              </h3>
 
-                        <button onClick={() => handleDestaque(v.id)} className={styles.botaoAcao}>
-                          {v.destaque ? 'Remover destaque' : 'Destacar'}
-                        </button>
+              <span
+                className={
+                  v.vendido
+                    ? styles.tagVendido
+                    : v.destaque
+                    ? styles.tagDestaque
+                    : styles.tagAtivo
+                }
+              >
+                {v.vendido
+                  ? 'Vendido'
+                  : v.destaque
+                  ? 'Destaque'
+                  : 'Ativo'}
+              </span>
+            </div>
 
-                        <button onClick={() => handleVendido(v.id)} className={styles.botaoAcao}>
-                          {v.vendido ? 'Reativar' : 'Marcar vendido'}
-                        </button>
+            <div className={styles.mobileInfos}>
+              <div>
+                <span>Ano</span>
+                <strong>{v.ano}</strong>
+              </div>
 
-                        <button onClick={() => handleDeletar(v.id)} className={styles.botaoDeletar}>
-                          Remover
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+              <div>
+                <span>Preço</span>
+                <strong>
+                  {v.preco.toLocaleString('pt-BR', {
+                    style: 'currency',
+                    currency: 'BRL',
+                  })}
+                </strong>
+              </div>
+
+              <div>
+                <span>KM</span>
+                <strong>{v.km.toLocaleString('pt-BR')} km</strong>
+              </div>
+            </div>
+
+            <div className={styles.mobileActions}>
+              <button
+                onClick={() =>
+                  navigate(`/admin/veiculos/${v.id}/editar`)
+                }
+              >
+                Editar
+              </button>
+
+              <button onClick={() => handleDestaque(v.id)}>
+                {v.destaque ? 'Remover destaque' : 'Destacar'}
+              </button>
+
+              <button onClick={() => handleVendido(v.id)}>
+                {v.vendido ? 'Reativar' : 'Marcar vendido'}
+              </button>
+
+              <button
+                onClick={() => handleDeletar(v.id)}
+                className={styles.danger}
+              >
+                Remover
+              </button>
+            </div>
           </div>
-        )}
+        ))}
+      </div>
+    </>
+  )}
+</div>
       </main>
     </div>
   )
