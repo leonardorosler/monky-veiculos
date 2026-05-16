@@ -7,9 +7,44 @@ import type { Veiculo } from '../../types'
 import styles from './Catalogo.module.css'
 
 const SESSION_KEY = 'catalogo_session_id'
-const marcasPopulares = ['Todas', 'Toyota', 'Honda', 'Volkswagen', 'Chevrolet', 'Hyundai', 'Fiat', 'Jeep', 'BMW', 'Audi', 'Mercedes-Benz']
+
+const marcasPopulares = [
+  {
+    nome: 'Toyota',
+    logo: '/marcas/toyota.svg',
+  },
+  {
+    nome: 'Honda',
+    logo: '/marcas/honda.svg',
+  },
+  {
+    nome: 'Volkswagen',
+    logo: '/marcas/volkswagen.svg',
+  },
+  {
+    nome: 'Chevrolet',
+    logo: '/marcas/chevrolet.svg',
+  },
+  {
+    nome: 'Hyundai',
+    logo: '/marcas/hyundai.svg',
+  },
+  {
+    nome: 'Fiat',
+    logo: '/marcas/fiat.svg',
+  },
+  {
+    nome: 'Jeep',
+    logo: '/marcas/jeep.svg',
+  },
+  {
+    nome: 'BMW',
+    logo: '/marcas/bmw.svg',
+  },
+]
 
 const combustiveis = ['GASOLINA', 'ETANOL', 'FLEX', 'DIESEL', 'ELETRICO', 'HIBRIDO']
+
 const cambios = ['MANUAL', 'AUTOMATICO', 'CVT']
 
 const faixasPreco = [
@@ -47,6 +82,7 @@ export function Catalogo() {
   const [veiculos, setVeiculos] = useState<Veiculo[]>([])
   const [favoritos, setFavoritos] = useState<string[]>([])
   const [carregando, setCarregando] = useState(true)
+
   const [filtros, setFiltros] = useState({
     marca: '',
     modelo: '',
@@ -150,23 +186,38 @@ export function Catalogo() {
               <label className={styles.label}>Marca</label>
 
               <div className={styles.marcasGrid}>
+                <button
+                  type="button"
+                  onClick={() =>
+                    setFiltros((prev) => ({
+                      ...prev,
+                      marca: '',
+                    }))
+                  }
+                  className={`${styles.marcaCard} ${!filtros.marca ? styles.marcaCardAtiva : ''}`}
+                >
+                  <span>Todas</span>
+                </button>
+
                 {marcasPopulares.map((marca) => {
-                  const ativo = (marca === 'Todas' && !filtros.marca) || filtros.marca === marca
+                  const ativo = filtros.marca === marca.nome
 
                   return (
                     <button
-                      key={marca}
+                      key={marca.nome}
                       type="button"
                       aria-pressed={ativo}
                       onClick={() =>
                         setFiltros((prev) => ({
                           ...prev,
-                          marca: marca === 'Todas' ? '' : marca,
+                          marca: marca.nome,
                         }))
                       }
-                      className={`${styles.marcaItem} ${ativo ? styles.marcaAtiva : ''}`}
+                      className={`${styles.marcaCard} ${ativo ? styles.marcaCardAtiva : ''}`}
                     >
-                      {marca}
+                      <img src={marca.logo} alt={marca.nome} className={styles.marcaLogo} />
+
+                      <span>{marca.nome}</span>
                     </button>
                   )
                 })}

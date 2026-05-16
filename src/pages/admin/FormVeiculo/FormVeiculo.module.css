@@ -15,7 +15,6 @@
 
 .titulo {
   margin: 0;
-
   font-size: 1.8rem;
   color: #1a1a1a;
 }
@@ -28,20 +27,15 @@
 
 .erro {
   padding: 0.75rem;
-
   background-color: #fee2e2;
   color: #dc2626;
-
   border-radius: 6px;
-
   font-size: 0.9rem;
 }
 
 .grid {
   display: grid;
-  grid-template-columns:
-    repeat(auto-fit, minmax(200px, 1fr));
-
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 1rem;
 }
 
@@ -59,12 +53,9 @@
 
 .input {
   padding: 0.7rem;
-
   background-color: #fff;
-
   border: 1px solid #ddd;
   border-radius: 6px;
-
   font-size: 0.95rem;
 }
 
@@ -75,22 +66,108 @@
 
 .infoFotos {
   margin: 0;
-
   font-size: 0.85rem;
   color: #666;
 }
 
-.botaoPrimario {
-  padding: 0.9rem 1.2rem;
+.dica {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #888;
+}
 
+/* Grid de fotos */
+.gridFotos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.fotoItem {
+  position: relative;
+  width: 120px;
+  border: 2px solid transparent;
+  border-radius: 6px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.fotoItemCapa {
+  border-color: #1a1a1a;
+}
+
+.fotoImg {
+  width: 120px;
+  height: 90px;
+  object-fit: cover;
+  display: block;
+}
+
+.tagCapa {
+  position: absolute;
+  top: 0.3rem;
+  left: 0.3rem;
   background-color: #1a1a1a;
   color: #fff;
+  font-size: 0.7rem;
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+}
 
+.fotoBotoes {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0.3rem;
+  background-color: #fff;
+}
+
+.botaoDefinirCapa {
+  padding: 0.3rem;
+  background-color: #1a1a1a;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.7rem;
+}
+
+.botaoDefinirCapa:hover {
+  background-color: #333;
+}
+
+.botaoDeletar {
+  padding: 0.3rem;
+  background-color: #fee2e2;
+  color: #dc2626;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.7rem;
+}
+
+.botaoDeletar:hover {
+  background-color: #fecaca;
+}
+
+.botaoPrimario {
+  padding: 0.9rem 1.2rem;
+  background-color: #1a1a1a;
+  color: #fff;
   border: none;
   border-radius: 6px;
-
   font-size: 1rem;
   font-weight: 600;
-
   cursor: pointer;
+}
+
+.botaoPrimario:hover {
+  background-color: #333;
+}
+
+.botaoPrimario:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
