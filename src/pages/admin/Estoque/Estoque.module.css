@@ -74,6 +74,10 @@
   border-bottom: 1px solid #eee;
 }
 
+.modelo{
+  width: 19rem;
+}
+
 .tabela td {
   padding: 1rem;
   border-bottom: 1px solid #f2f2f2;
@@ -85,6 +89,7 @@
 }
 
 /* STATUS */
+
 .tagAtivo,
 .tagVendido,
 .tagDestaque {

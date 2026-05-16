@@ -122,7 +122,7 @@ export function Estoque() {
                   <thead>
                     <tr>
                       <th>Foto</th>
-                      <th>Veículo</th>
+                      <th className={styles.modelo}>Veículo</th>
                       <th>Ano</th>
                       <th>Preço</th>
                       <th>KM</th>
@@ -156,7 +156,7 @@ export function Estoque() {
                         <td>
                           <div className={styles.acoes}>
                             <button onClick={() => navigate(`/admin/veiculos/${v.id}/editar`)}>Editar</button>
-                            <button onClick={() => handleDestaque(v.id)}>{v.destaque ? 'Remover destaque' : 'Destacar'}</button>
+                            <button onClick={() => handleDestaque(v.id)}>{v.destaque ? 'Remover' : 'Destacar'}</button>
                             <button onClick={() => handleVendido(v.id)}>{v.vendido ? 'Reativar' : 'Vendido'}</button>
                             <button onClick={() => handleDeletar(v.id)} className={styles.danger}>
                               Excluir
