@@ -3,6 +3,8 @@
   display: flex;
   flex-direction: column;
 
+  height: 100%;
+
   background: #ffffff;
   border: 1px solid #e2e8f0;
   border-radius: 18px;
@@ -92,6 +94,9 @@
 .info {
   display: flex;
   flex-direction: column;
+
+  flex: 1;
+
   gap: 0.85rem;
 
   padding: 1rem;
@@ -99,6 +104,8 @@
 
 .nome {
   margin: 0;
+
+  min-height: 68px;
 
   color: #0f172a;
 
@@ -126,9 +133,11 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+
   gap: 1rem;
 
-  margin-top: 0.35rem;
+  margin-top: auto;
+
   padding-top: 1rem;
 
   border-top: 1px solid #f1f5f9;
@@ -136,6 +145,7 @@
 
 .precoContainer {
   display: flex;
+  align-items: end;
   flex-direction: column;
   gap: 0.2rem;
 }

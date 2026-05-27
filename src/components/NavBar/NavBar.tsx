@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { Heart, Menu, Rat, X } from 'lucide-react'
+import { Menu, X } from 'lucide-react'
 import styles from './NavBar.module.css'
 
 export function NavBar() {
@@ -19,7 +19,7 @@ export function NavBar() {
       <header className={styles.header}>
         <h1 className={styles.logoWrapper}>
           <button onClick={() => navegar('/')} className={styles.logo}>
-            <Rat color="#010057" />
+            <img className={styles.icone} src="/monkey.svg" />
             Monky Veículos
           </button>
         </h1>

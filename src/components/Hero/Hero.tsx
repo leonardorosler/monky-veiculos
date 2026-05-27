@@ -10,9 +10,6 @@ export function Hero() {
   return (
     <section
       className={styles.hero}
-      // style={{
-      //   backgroundImage: `url(${heroBg})`,
-      // }}
     >
       <div className={styles.overlay} />
 

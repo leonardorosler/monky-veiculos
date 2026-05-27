@@ -30,7 +30,7 @@ export function AdminNavBar() {
       <div className={styles.container}>
         <div className={styles.esquerda}>
           <button onClick={() => navigate('/admin')} className={styles.logo}>
-            <div className={styles.logoIcon}>⚙️</div>
+            <img className={styles.icone} src="/admin.svg"/>
             <div className={styles.logoTextos}>
               <strong>Painel</strong>
               <span>Admin</span>

@@ -19,6 +19,10 @@
   position: relative;
 }
 
+.icone{
+width: 2rem;
+}
+
 .logoWrapper {
   margin: 0;
 }

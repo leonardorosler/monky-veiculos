@@ -46,6 +46,8 @@ export function Leads() {
     setLeads(prev => prev.map(l => l.id === id ? data : l))
   }
 
+  
+
   const naoLidos = useMemo(() => leads.filter(l => !l.lido).length, [leads])
 
   const leadsFiltrados = useMemo(() => {
