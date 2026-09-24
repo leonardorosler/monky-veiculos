@@ -1,31 +1,14 @@
 import { useRef } from 'react'
+import { siteConfig } from '../../config/site'
 import styles from './MarcasCarrossel.module.css'
-
-export const marcasPopulares = [
-  { nome: 'Chevrolet', logo: '/marcas/chevrolet.svg' },
-  { nome: 'Citroën', logo: '/marcas/citroen.svg' },
-  { nome: 'Fiat', logo: '/marcas/fiat.svg' },
-  { nome: 'Ford', logo: '/marcas/ford.svg' },
-  { nome: 'Honda', logo: '/marcas/honda.svg' },
-  { nome: 'Hyundai', logo: '/marcas/hyundai.svg' },
-  { nome: 'Jeep', logo: '/marcas/jeep.svg' },
-  { nome: 'Kia', logo: '/marcas/kia.svg' },
-  { nome: 'Nissan', logo: '/marcas/nissan.svg' },
-  { nome: 'Peugeot', logo: '/marcas/peugeot.svg' },
-  { nome: 'Renault', logo: '/marcas/renault.svg' },
-  { nome: 'Toyota', logo: '/marcas/toyota.svg' },
-  { nome: 'Volkswagen', logo: '/marcas/volkswagen.svg' },
-  { nome: 'Audi', logo: '/marcas/audi.svg' },
-  { nome: 'BMW', logo: '/marcas/bmw.svg' },
-  { nome: 'Mercedes-Benz', logo: '/marcas/mercedes-benz.svg' },
-]
 
 interface MarcasCarrosselProps {
   marcaSelecionada: string
   onSelecionarMarca: (nome: string) => void
+  variante?: 'padrao' | 'home'
 }
 
-export function MarcasCarrossel({ marcaSelecionada, onSelecionarMarca }: MarcasCarrosselProps) {
+export function MarcasCarrossel({ marcaSelecionada, onSelecionarMarca, variante = 'padrao' }: MarcasCarrosselProps) {
   const carrosselRef = useRef<HTMLDivElement>(null)
 
   function scrollCarrossel(direcao: 'esquerda' | 'direita') {
@@ -38,7 +21,7 @@ export function MarcasCarrossel({ marcaSelecionada, onSelecionarMarca }: MarcasC
   }
 
   return (
-    <div className={styles.carrosselWrapper}>
+    <div className={`${styles.carrosselWrapper} ${variante === 'home' ? styles.home : ''}`}>
       <button
         type="button"
         className={styles.carrosselBtn}
@@ -49,7 +32,7 @@ export function MarcasCarrossel({ marcaSelecionada, onSelecionarMarca }: MarcasC
       </button>
 
       <div className={styles.carrossel} ref={carrosselRef}>
-        {marcasPopulares.map((marca) => {
+        {siteConfig.catalog.brands.map((marca) => {
           const ativa = marcaSelecionada === marca.nome
           return (
             <button

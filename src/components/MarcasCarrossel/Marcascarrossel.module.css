@@ -4,14 +4,18 @@
   gap: 0.5rem;
 
   width: 100%;
-  max-width: 1440px;
+  max-width: 1280px;
 
   margin: 0 auto;
-  padding: 1.25rem 2rem;
+  padding: 1.25rem 0;
 
-  border-bottom: 1px solid var(--border-light);
+  border-bottom: 0;
 
-  background: white;
+  background: transparent;
+}
+
+.home {
+  margin-top: 6.5rem;
 }
 
 .carrosselBtn {
@@ -21,17 +25,17 @@
   align-items: center;
   justify-content: center;
 
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 40px;
 
-  border: 1px solid var(--border-light);
+  border: 1px solid #e5e7eb;
   border-radius: 50%;
 
   background: white;
 
   font-size: 1.4rem;
   line-height: 1;
-  color: var(--text-secondary);
+  color: #111827;
 
   cursor: pointer;
 
@@ -42,9 +46,9 @@
 }
 
 .carrosselBtn:hover {
-  border-color: var(--accent-primary);
-  color: var(--accent-primary);
-  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.1);
+  border-color: #ef4444;
+  color: #b91c1c;
+  box-shadow: 0 8px 18px rgba(185, 28, 28, 0.1);
 }
 
 .carrossel {
@@ -69,20 +73,20 @@
 .carrosselItem {
   flex-shrink: 0;
 
-  width: 118px;
-  height: 92px;
+  width: 112px;
+  height: 98px;
 
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 
-  /* gap: 0.55rem; */
+  gap: 0.4rem;
 
-  padding: 0.75rem;
+  padding: 0.65rem;
 
-  border: 1px solid var(--border-light);
-  border-radius: 14px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
 
   background: white;
 
@@ -96,43 +100,46 @@
 }
 
 .carrosselItem:hover {
-  border-color: var(--accent-primary);
+  border-color: #ef4444;
 
   /* transform: translateY(-2px); */
 
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 10px 20px rgba(15, 23, 42, 0.08);
 }
 
 .carrosselItem span {
+  width: 100%;
   max-width: 100%;
-
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  min-height: 1.7rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow-wrap: anywhere;
 
   font-size: 0.74rem;
   font-weight: 700;
+  line-height: 1.15;
 
-  color: var(--text-secondary);
+  color: #111827;
 
   text-align: center;
 }
 
 .carrosselItemAtivo {
-  border-color: var(--accent-primary);
+  border-color: #ef4444;
 
-  background: rgba(37, 99, 235, 0.06);
+  background: rgba(239, 68, 68, 0.06);
 
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.08);
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
 }
 
 .carrosselItemAtivo span {
-  color: var(--accent-primary);
+  color: #b91c1c;
 }
 
 .carrosselLogo {
-  width: 52px;
-  height: 52px;
+  width: 44px;
+  height: 44px;
 
   object-fit: contain;
   object-position: center;
@@ -145,9 +152,13 @@
     padding: 1rem;
   }
 
+  .home {
+    margin-top: 1.25rem;
+  }
+
   .carrosselItem {
     width: 96px;
-    height: 82px;
+    height: 94px;
 
     padding: 0.6rem;
   }
@@ -169,11 +180,15 @@
 
   .carrosselItem {
     width: 88px;
-    height: 76px;
+    height: 90px;
   }
 
   .carrosselLogo {
     width: 38px;
     height: 38px;
   }
+}
+
+@media (min-width: 769px) and (max-width: 1100px) {
+  .home { margin-top: 10rem; }
 }

@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { Heart, MessageCircle, BadgeDollarSign, Fuel, Gauge, Palette, ChevronLeft, ChevronRight } from 'lucide-react'
 
 import api from '../../api/axios'
+import { getWhatsAppUrl } from '../../config/site'
 
 import type { Veiculo as VeiculoType } from '../../types'
 
@@ -90,9 +91,23 @@ export function Veiculo() {
 
     const texto = `Olá! Tenho interesse no ${veiculo.marca} ${veiculo.modelo} ${veiculo.ano}.`
 
-    const numero = import.meta.env.VITE_WHATSAPP ?? ''
+    window.open(getWhatsAppUrl(texto), '_blank')
+  }
 
-    window.open(`https://wa.me/${numero}?text=${encodeURIComponent(texto)}`, '_blank')
+  function handleFinanciamento() {
+    if (!veiculo) return
+
+    const preco = veiculo.preco.toLocaleString('pt-BR', {
+      style: 'currency',
+      currency: 'BRL',
+      maximumFractionDigits: 0,
+    })
+
+    navigate(`/financiamento?veiculo=${encodeURIComponent(veiculo.id)}`, {
+      state: {
+        veiculoInteresse: `${veiculo.marca} ${veiculo.modelo} ${veiculo.ano} - ${preco}`,
+      },
+    })
   }
 
   function proximaFoto() {
@@ -234,7 +249,12 @@ export function Veiculo() {
                 Falar no WhatsApp
               </button>
 
-              <button className={styles.botaoFinanciamento} onClick={() => navigate('/financiamento')}>Simular financiamento</button>
+              <button
+                className={styles.botaoFinanciamento}
+                onClick={handleFinanciamento}
+              >
+                Simular financiamento
+              </button>
             </div>
           </section>
         </div>

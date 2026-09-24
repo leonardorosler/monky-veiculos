@@ -1,1 +1,0 @@
-arquivo react para cliente específico (vitrine) que utiliza a api 'catalogo-veiculos-api', e renderiza componentes reutilizaveis para futuros clientes, sistema multi-tenant, ou seja, api e banco centralizadas e front próprio e personalizável

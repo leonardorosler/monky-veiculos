@@ -1,33 +1,102 @@
 .footer {
   width: 100%;
-
   margin-top: auto;
-  padding: 1.5rem 1rem;
+  border-top: 1px solid rgba(255, 255, 255, .09);
+  background: #060a0e;
+}
 
-  background: #0f172a;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
-
-  display: flex;
+.inner {
+  width: min(calc(100% - 6rem), 1440px);
+  min-height: 82px;
+  margin: 0 auto;
+  padding: .85rem 0;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto auto;
   align-items: center;
-  justify-content: center;
+  gap: 1.5rem;
 }
 
-.footerTexto {
-  color: #94a3b8;
+.marca { display: flex; align-items: center; gap: .7rem; text-transform: uppercase; }
+.marcaIcone { width: 42px; height: 38px; object-fit: contain; }
+.marca > div { display: flex; flex-direction: column; line-height: 1; }
+.marca span { color: #fff; font-size: 1.18rem; font-weight: 800; }
+.marca small { margin-top: .25rem; color: #e33840; font-size: .58rem; font-weight: 800; letter-spacing: .16em; }
+.links { display: flex; align-items: center; justify-content: center; gap: 2rem; }
+.links button, .links a { position: relative; color: rgba(255, 255, 255, .64); font-size: .74rem; font-weight: 650; cursor: pointer; transition: color 180ms ease; }
+.links button::after, .links a::after { content: ''; position: absolute; left: 0; right: 0; bottom: -.4rem; height: 2px; background: #e33840; transform: scaleX(0); transition: transform 180ms ease; }
+.links button:hover, .links a:hover { color: #fff; }
+.links button:hover::after, .links a:hover::after { transform: scaleX(1); }
+.social { display: flex; align-items: center; gap: 1rem; }
+.social a { width: 32px; height: 32px; display: grid; place-items: center; border: 1px solid rgba(255, 255, 255, .12); border-radius: 50%; color: rgba(255, 255, 255, .82); transition: border-color 180ms ease, color 180ms ease, background 180ms ease; }
+.social a:hover { border-color: rgba(227, 56, 64, .52); background: rgba(227, 56, 64, .1); color: #ef444b; }
+.facebookIcon { font-family: Arial, sans-serif; font-size: 1.12rem; font-weight: 800; line-height: 1; }
+.empresa { min-width: 184px; min-height: 44px; padding-left: 1.5rem; display: flex; align-items: center; justify-content: flex-end; gap: .65rem; border-left: 1px solid rgba(255, 255, 255, .1); }
+.empresa > span:first-child { color: rgba(255, 255, 255, .42); font-size: .58rem; font-weight: 650; line-height: 1.2; text-transform: uppercase; }
+.empresaLogo { position: relative; width: 128px; height: 34px; overflow: hidden; flex: 0 0 auto; }
+.empresaLogo img { position: absolute; top: 50%; left: 0; width: 128px; height: 128px; max-width: none; object-fit: contain; transform: translateY(-50%); mix-blend-mode: screen; transition: opacity 180ms ease; }
+.empresa:hover .empresaLogo img { opacity: .76; }
 
-  font-size: 0.95rem;
-  font-weight: 500;
-  letter-spacing: 0.02em;
-
-  text-align: center;
+@media (max-width: 1100px) {
+  .inner { grid-template-columns: auto minmax(0, 1fr) auto; }
+  .links { gap: 1.2rem; }
+  .empresa { grid-column: 1 / -1; min-height: 0; padding: .65rem 0 0; justify-content: flex-end; border-top: 1px solid rgba(255, 255, 255, .08); border-left: 0; }
 }
 
-@media (min-width: 768px) {
-  .footer {
-    padding: 2rem 1.5rem;
+@media (max-width: 850px) {
+  .inner { width: min(calc(100% - 2.5rem), 1440px); min-height: 0; grid-template-columns: 1fr auto; padding: 1.5rem 0; }
+  .links { grid-column: 1 / -1; grid-row: 2; justify-content: flex-start; flex-wrap: wrap; gap: 1rem 1.5rem; }
+  .social { justify-content: flex-end; }
+  .empresa { grid-row: 3; justify-content: flex-start; margin-top: .35rem; }
+}
+
+@media (max-width: 600px) {
+  .inner {
+    width: calc(100% - 2rem);
+    padding: 1.5rem 0 1.25rem;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
   }
 
-  .footerTexto {
-    font-size: 1rem;
+  .marca { justify-content: center; }
+  .marcaIcone { width: 46px; height: 42px; }
+
+  .links {
+    width: 100%;
+    padding: .85rem 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: .35rem .75rem;
+    border-top: 1px solid rgba(255, 255, 255, .08);
+    border-bottom: 1px solid rgba(255, 255, 255, .08);
+  }
+
+  .links button,
+  .links a {
+    min-height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: .76rem;
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  .links a:last-child { grid-column: 1 / -1; }
+  .links button::after, .links a::after { display: none; }
+
+  .social { justify-content: center; gap: .75rem; }
+  .social a { width: 36px; height: 36px; }
+
+  .empresa {
+    width: 100%;
+    min-width: 0;
+    min-height: 0;
+    margin: 0;
+    padding: .85rem 0 0;
+    justify-content: center;
+    border-top: 1px solid rgba(255, 255, 255, .08);
+    border-left: 0;
   }
 }

@@ -1,25 +1,36 @@
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useEffect, useState, type CSSProperties } from 'react'
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 
-import { BadgeCheck, CircleCheckBig, Clock3, ShieldCheck, WalletCards, Loader2 } from 'lucide-react'
+import { ArrowRight, BadgeCheck, CircleCheckBig, Clock3, ShieldCheck, WalletCards, Loader2 } from 'lucide-react'
 
 import api from '../../api/axios'
+import type { Veiculo } from '../../types'
+import { siteConfig } from '../../config/site'
 
 import { NavBar } from '../../components/NavBar/NavBar'
+import { Footer } from '../../components/Footer/Footer'
 
 import styles from './Financiamento.module.css'
 
-const prazos = ['12', '24', '36', '48', '60']
+const benefitIcons = [Clock3, WalletCards, BadgeCheck]
+
+type FinanciamentoLocationState = {
+  veiculoInteresse?: string
+}
 
 export function Financiamento() {
+  const [searchParams] = useSearchParams()
+  const location = useLocation()
+  const veiculoInteresseInicial = (location.state as FinanciamentoLocationState | null)?.veiculoInteresse ?? ''
+
   const [form, setForm] = useState({
     nome: '',
     telefone: '',
     email: '',
     cpf: '',
-    veiculoInteresse: '',
+    veiculoInteresse: veiculoInteresseInicial,
     valorEntrada: '',
-    prazo: '36',
+    prazo: siteConfig.financing.defaultTerm,
     rendaMensal: '',
   })
 
@@ -30,6 +41,37 @@ export function Financiamento() {
   const [carregando, setCarregando] = useState(false)
 
   const navigate = useNavigate()
+
+  useEffect(() => {
+    const veiculoId = searchParams.get('veiculo')
+
+    if (!veiculoId || veiculoInteresseInicial) return
+
+    let ativo = true
+
+    api.get<Veiculo>(`/veiculos/${veiculoId}`)
+      .then(({ data }) => {
+        if (!ativo) return
+
+        const preco = data.preco.toLocaleString('pt-BR', {
+          style: 'currency',
+          currency: 'BRL',
+          maximumFractionDigits: 0,
+        })
+
+        setForm((formAtual) => ({
+          ...formAtual,
+          veiculoInteresse: formAtual.veiculoInteresse || `${data.marca} ${data.modelo} ${data.ano} - ${preco}`,
+        }))
+      })
+      .catch(() => {
+        // O formulário continua disponível para preenchimento manual.
+      })
+
+    return () => {
+      ativo = false
+    }
+  }, [searchParams, veiculoInteresseInicial])
 
   function formatarTelefone(valor: string) {
     return valor
@@ -96,9 +138,9 @@ export function Financiamento() {
         <div className={styles.sucesso}>
           <CircleCheckBig size={64} />
 
-          <h2>Simulação recebida!</h2>
+          <h2>{siteConfig.financing.successTitle}</h2>
 
-          <p>Nossa equipe analisará seu perfil e entrará em contato com as melhores condições disponíveis.</p>
+          <p>{siteConfig.financing.successText}</p>
 
           <button onClick={() => navigate('/')} className={styles.botao}>
             Voltar ao início
@@ -112,54 +154,41 @@ export function Financiamento() {
     <div className={styles.container}>
       <NavBar />
 
-      <main className={styles.main}>
+      <main
+        className={styles.main}
+        style={{
+          '--hero-image': `url("${siteConfig.assets.hero}")`,
+          '--dealership-image': `url("${siteConfig.assets.dealership}")`,
+        } as CSSProperties}
+      >
         <div className={styles.hero}>
-          <h1 className={styles.titulo}>Simule seu financiamento</h1>
+          <span className={styles.eyebrow}>{siteConfig.financing.eyebrow}</span>
+          <h1 className={styles.titulo}>{siteConfig.financing.title} <span>{siteConfig.financing.titleHighlight}</span></h1>
 
-          <p className={styles.descricao}>Receba uma análise rápida e descubra as melhores condições para conquistar seu próximo veículo.</p>
+          <p className={styles.descricao}>{siteConfig.financing.description}</p>
         </div>
 
         <div className={styles.layout}>
           <aside className={styles.sidebar}>
             <div className={styles.cardInfo}>
-              <h2 className={styles.cardTitulo}>Por que financiar conosco?</h2>
+              <h2 className={styles.cardTitulo}>{siteConfig.financing.sectionTitle}</h2>
 
               <div className={styles.listaVantagens}>
-                <div className={styles.vantagem}>
-                  <Clock3 size={20} />
-
-                  <div>
-                    <strong>Aprovação rápida</strong>
-
-                    <p>Retorno ágil para sua análise de crédito.</p>
-                  </div>
-                </div>
-
-                <div className={styles.vantagem}>
-                  <WalletCards size={20} />
-
-                  <div>
-                    <strong>Parcelas flexíveis</strong>
-
-                    <p>Opções adaptadas ao seu orçamento.</p>
-                  </div>
-                </div>
-
-                <div className={styles.vantagem}>
-                  <BadgeCheck size={20} />
-
-                  <div>
-                    <strong>Atendimento personalizado</strong>
-
-                    <p>Nossa equipe ajuda você durante todo o processo.</p>
-                  </div>
-                </div>
+                {siteConfig.financing.benefits.map((benefit, index) => {
+                  const Icon = benefitIcons[index]
+                  return (
+                    <div className={styles.vantagem} key={benefit.title}>
+                      <Icon size={20} />
+                      <div><strong>{benefit.title}</strong><p>{benefit.description}</p></div>
+                    </div>
+                  )
+                })}
               </div>
 
               <div className={styles.seguro}>
                 <ShieldCheck size={18} />
 
-                <span>Seus dados são protegidos e usados apenas para análise de crédito.</span>
+                <span>{siteConfig.financing.privacy}</span>
               </div>
             </div>
           </aside>
@@ -239,7 +268,7 @@ export function Financiamento() {
                     <label className={styles.label}>Prazo *</label>
 
                     <select name="prazo" value={form.prazo} onChange={handleChange} className={styles.input}>
-                      {prazos.map((p) => (
+                      {siteConfig.financing.terms.map((p) => (
                         <option key={p} value={p}>
                           {p} meses
                         </option>
@@ -269,13 +298,17 @@ export function Financiamento() {
                     Enviando...
                   </>
                 ) : (
-                  'Solicitar simulação'
+                  <>
+                    Solicitar simulação
+                    <ArrowRight size={18} />
+                  </>
                 )}
               </button>
             </form>
           </section>
         </div>
       </main>
+      <Footer />
     </div>
   )
 }

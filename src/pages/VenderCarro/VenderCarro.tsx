@@ -1,16 +1,18 @@
-import { useState } from 'react'
+import { useState, type CSSProperties } from 'react'
 
 import { useNavigate } from 'react-router-dom'
 
-import { BadgeCheck, CircleCheckBig, Clock3, Loader2, ShieldCheck, Sparkles } from 'lucide-react'
+import { ArrowRight, BadgeCheck, CircleCheckBig, Clock3, Loader2, ShieldCheck, Sparkles } from 'lucide-react'
 
 import api from '../../api/axios'
+import { siteConfig } from '../../config/site'
 
 import { NavBar } from '../../components/NavBar/NavBar'
+import { Footer } from '../../components/Footer/Footer'
 
 import styles from './VenderCarro.module.css'
 
-const condicoes = ['Excelente', 'Bom', 'Regular']
+const benefitIcons = [Clock3, BadgeCheck, Sparkles]
 
 export function VenderCarro() {
   const [form, setForm] = useState({
@@ -21,7 +23,7 @@ export function VenderCarro() {
     modelo: '',
     ano: '',
     km: '',
-    condicao: 'Bom',
+    condicao: siteConfig.sellCar.defaultCondition,
     observacoes: '',
   })
 
@@ -82,9 +84,9 @@ export function VenderCarro() {
         <div className={styles.sucesso}>
           <CircleCheckBig size={64} />
 
-          <h2>Recebemos seu veículo!</h2>
+          <h2>{siteConfig.sellCar.successTitle}</h2>
 
-          <p>Nossa equipe analisará as informações enviadas e entrará em contato com você em breve.</p>
+          <p>{siteConfig.sellCar.successText}</p>
 
           <button onClick={() => navigate('/')} className={styles.botao}>
             Voltar ao início
@@ -98,13 +100,21 @@ export function VenderCarro() {
     <div className={styles.container}>
       <NavBar />
 
-      <main className={styles.main}>
+      <main
+        className={styles.main}
+        style={{
+          '--hero-image': `url("${siteConfig.assets.hero}")`,
+          '--dealership-image': `url("${siteConfig.assets.dealership}")`,
+        } as CSSProperties}
+      >
         <div className={styles.hero}>
-          <h1 className={styles.titulo}>Venda seu carro com segurança</h1>
+          <span className={styles.eyebrow}>{siteConfig.sellCar.eyebrow}</span>
+          <h1 className={styles.titulo}>{siteConfig.sellCar.title} <span>{siteConfig.sellCar.titleHighlight}</span></h1>
 
-          <p className={styles.descricao}>Preencha os dados abaixo para receber uma avaliação rápida do seu veículo.</p>
+          <p className={styles.descricao}>{siteConfig.sellCar.description}</p>
         </div>
 
+        <div className={styles.layout}>
         <form onSubmit={handleSubmit} className={styles.form}>
           {erro && <p className={styles.erro}>{erro}</p>}
 
@@ -178,7 +188,7 @@ export function VenderCarro() {
                 <label className={styles.label}>Condição *</label>
 
                 <select name="condicao" value={form.condicao} onChange={handleChange} className={styles.input}>
-                  {condicoes.map((c) => (
+                  {siteConfig.sellCar.conditions.map((c) => (
                     <option key={c} value={c}>
                       {c}
                     </option>
@@ -207,55 +217,40 @@ export function VenderCarro() {
                 Enviando...
               </>
             ) : (
-              'Enviar proposta'
+              <>
+                Enviar proposta
+                <ArrowRight size={18} />
+              </>
             )}
           </button>
         </form>
 
         <section className={styles.info}>
           <div className={styles.cardInfo}>
-            <h2 className={styles.cardTitulo}>Por que vender conosco?</h2>
+            <h2 className={styles.cardTitulo}>{siteConfig.sellCar.sectionTitle}</h2>
 
             <div className={styles.listaVantagens}>
-              <div className={styles.vantagem}>
-                <Clock3 size={20} />
-
-                <div>
-                  <strong>Avaliação rápida</strong>
-
-                  <p>Retorno rápido para análise do seu veículo.</p>
-                </div>
-              </div>
-
-              <div className={styles.vantagem}>
-                <BadgeCheck size={20} />
-
-                <div>
-                  <strong>Processo seguro</strong>
-
-                  <p>Negociação transparente e sem burocracia.</p>
-                </div>
-              </div>
-
-              <div className={styles.vantagem}>
-                <Sparkles size={20} />
-
-                <div>
-                  <strong>Melhor valorização</strong>
-
-                  <p>Buscamos a melhor proposta para seu carro.</p>
-                </div>
-              </div>
+              {siteConfig.sellCar.benefits.map((benefit, index) => {
+                const Icon = benefitIcons[index]
+                return (
+                  <div className={styles.vantagem} key={benefit.title}>
+                    <Icon size={20} />
+                    <div><strong>{benefit.title}</strong><p>{benefit.description}</p></div>
+                  </div>
+                )
+              })}
             </div>
 
             <div className={styles.seguro}>
               <ShieldCheck size={18} />
 
-              <span>Seus dados são protegidos e utilizados apenas para contato e avaliação do veículo.</span>
+              <span>{siteConfig.sellCar.privacy}</span>
             </div>
           </div>
         </section>
+        </div>
       </main>
+      <Footer />
     </div>
   )
 }

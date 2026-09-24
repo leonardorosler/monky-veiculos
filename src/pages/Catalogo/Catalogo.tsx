@@ -1,24 +1,15 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import api from '../../api/axios'
 import { CardVeiculo } from '../../components/CardVeiculo/CardVeiculo'
 import { Spinner } from '../../components/Spinner/Spinner'
 import { NavBar } from '../../components/NavBar/NavBar'
-import { MarcasCarrossel, marcasPopulares } from '../../components/MarcasCarrossel/Marcascarrossel'
+import { useSearchParams } from 'react-router-dom'
+import { MarcasCarrossel } from '../../components/MarcasCarrossel/Marcascarrossel'
 import type { Veiculo } from '../../types'
+import { siteConfig } from '../../config/site'
 import styles from './Catalogo.module.css'
 
 const SESSION_KEY = 'catalogo_session_id'
-
-const combustiveis = ['GASOLINA', 'ETANOL', 'FLEX', 'DIESEL', 'ELETRICO', 'HIBRIDO']
-
-const cambios = ['MANUAL', 'AUTOMATICO', 'CVT']
-
-const faixasPreco = [
-  { label: 'Até R$ 50 mil', value: '50000' },
-  { label: 'Até R$ 80 mil', value: '80000' },
-  { label: 'Até R$ 120 mil', value: '120000' },
-  { label: 'Até R$ 200 mil', value: '200000' },
-]
 
 function getSessionId() {
   let id = localStorage.getItem(SESSION_KEY)
@@ -30,23 +21,32 @@ function getSessionId() {
 }
 
 export function Catalogo() {
+  const [searchParams] = useSearchParams()
+  const filtrosIniciais = useMemo(
+    () => ({
+      marca: searchParams.get('marca') ?? '',
+      modelo: searchParams.get('modelo') ?? '',
+      preco_max: searchParams.get('preco_max') ?? '',
+      combustivel: searchParams.get('combustivel') ?? '',
+      cambio: searchParams.get('cambio') ?? '',
+    }),
+    [searchParams],
+  )
   const [veiculos, setVeiculos] = useState<Veiculo[]>([])
   const [favoritos, setFavoritos] = useState<string[]>([])
   const [carregando, setCarregando] = useState(true)
 
-  const [filtros, setFiltros] = useState({
-    marca: '',
-    modelo: '',
-    preco_max: '',
-    combustivel: '',
-    cambio: '',
-  })
+  const [filtros, setFiltros] = useState(filtrosIniciais)
 
   const sessionId = getSessionId()
 
   useEffect(() => {
     carregarFavoritos()
-    carregarVeiculos()
+    const params: Record<string, string> = {}
+    Object.entries(filtrosIniciais).forEach(([k, v]) => {
+      if (v) params[k] = v
+    })
+    carregarVeiculos(Object.keys(params).length ? params : undefined)
   }, [])
 
   async function carregarVeiculos(params?: Record<string, string>) {
@@ -120,7 +120,7 @@ export function Catalogo() {
               <label className={styles.label}>Marca</label>
               <select value={filtros.marca} onChange={(e) => setFiltros((p) => ({ ...p, marca: e.target.value }))} className={styles.input}>
                 <option value="">Todas</option>
-                {marcasPopulares.map((m) => (
+                {siteConfig.catalog.brands.map((m) => (
                   <option key={m.nome} value={m.nome}>
                     {m.nome}
                   </option>
@@ -141,7 +141,7 @@ export function Catalogo() {
             <div className={styles.grupo}>
               <label className={styles.label}>Faixa de preço</label>
               <div className={styles.precos}>
-                {faixasPreco.map((preco) => (
+                {siteConfig.catalog.priceRanges.map((preco) => (
                   <button
                     key={preco.value}
                     type="button"
@@ -163,9 +163,9 @@ export function Catalogo() {
                   className={styles.input}
                 >
                   <option value="">Todos</option>
-                  {combustiveis.map((c) => (
-                    <option key={c} value={c}>
-                      {c}
+                  {siteConfig.catalog.fuels.map((fuel) => (
+                    <option key={fuel.value} value={fuel.value}>
+                      {fuel.label}
                     </option>
                   ))}
                 </select>
@@ -175,7 +175,7 @@ export function Catalogo() {
                 <label className={styles.label}>Câmbio</label>
                 <select value={filtros.cambio} onChange={(e) => setFiltros((p) => ({ ...p, cambio: e.target.value }))} className={styles.input}>
                   <option value="">Todos</option>
-                  {cambios.map((c) => (
+                  {siteConfig.catalog.transmissions.map((c) => (
                     <option key={c} value={c}>
                       {c}
                     </option>
