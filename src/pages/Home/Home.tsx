@@ -1,6 +1,4 @@
-import { NavBar } from '../../components/NavBar/NavBar'
 import { Hero } from '../../components/Hero/Hero'
-import { Footer } from '../../components/Footer/Footer'
 import { Destaques } from '../../components/Destaques/Destaques'
 import { MarcasCarrossel } from '../../components/MarcasCarrossel/Marcascarrossel'
 
@@ -10,14 +8,15 @@ import { ArrowRight, BadgeCheck, CarFront, Handshake, ShieldCheck, UserRoundChec
 import { siteConfig } from '../../config/site'
 
 import styles from './Home.module.css'
+import { useSite } from '../../contexts/SiteContext'
 
 export function Home() {
+  const site = useSite()
   const navigate = useNavigate()
   const benefitIcons = [BadgeCheck, UserRoundCheck, Handshake, ShieldCheck]
   
   return (
     <main className={styles.container} style={{ '--dealership-image': `url("${siteConfig.assets.dealership}")` } as CSSProperties}>
-      <NavBar />
       <Hero />
       <MarcasCarrossel
         marcaSelecionada=""
@@ -40,7 +39,7 @@ export function Home() {
         </div>
       </section>
 
-      <section className={styles.institucional}>
+      <section className={styles.institucional} id="sobre-nos" aria-labelledby="sobre-titulo">
         <div className={styles.fotoLoja}>
           <div>
             <strong>{siteConfig.home.institutional.statement}</strong>
@@ -49,7 +48,7 @@ export function Home() {
         </div>
 
         <div className={styles.motivos}>
-          <h2>{siteConfig.home.institutional.title}</h2>
+          <h2 id="sobre-titulo">Por que escolher a {site.nomeCompleto}?</h2>
           <div className={styles.motivosGrid}>
             {siteConfig.home.institutional.benefits.map((benefit, index) => {
               const Icon = benefitIcons[index]
@@ -58,14 +57,13 @@ export function Home() {
           </div>
         </div>
 
-        <blockquote className={styles.depoimento}>
+        {siteConfig.home.institutional.testimonial.text && <blockquote className={styles.depoimento}>
           <div className={styles.estrelas}>{siteConfig.home.institutional.testimonial.rating}</div>
           <p>{siteConfig.home.institutional.testimonial.text}</p>
           <strong>{siteConfig.home.institutional.testimonial.author}</strong>
           <span>{siteConfig.home.institutional.testimonial.detail}</span>
-        </blockquote>
+        </blockquote>}
       </section>
-      <Footer />
     </main>
   )
 }

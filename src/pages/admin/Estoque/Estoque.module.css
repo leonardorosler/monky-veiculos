@@ -43,7 +43,7 @@
 
 .botaoPrimario {
   padding: 0.65rem 1rem;
-  background-color: #1a1a1a;
+  background-color: var(--accent-primary);
   color: #fff;
   border: none;
   border-radius: 6px;
@@ -137,7 +137,7 @@
 /* DESTRUTIVO */
 .danger {
   background: #fee2e2 !important;
-  color: #dc2626;
+  color: #991b1b;
 }
 
 .miniaturaFoto {
@@ -204,7 +204,7 @@
 
 .filtroBotao:hover {
   border-color: #1a1a1a;
-  color: #fff;
+  color: var(--accent-primary);
 }
 
 .filtroAtivo {
@@ -467,6 +467,75 @@
 
   .mobileActions .danger {
     background: #fee2e2 !important;
-    color: #dc2626;
+    color: #991b1b;
   }
+}
+
+.card { overflow-x: auto; border-radius: var(--radius-md); }
+.botaoPrimario { min-height: 44px; border-radius: var(--radius-sm); }
+.botaoPrimario:hover { background: var(--accent-hover); }
+.filtroBotao, .acoes button { min-height: 44px; }
+.filtroBotao:hover { background: var(--accent-soft); color: var(--accent-primary); }
+.filtroAtivo, .filtroAtivo:hover { background: var(--accent-primary); color: white; }
+.contagem, .vazio { color: var(--text-secondary); }
+.acoes button:disabled, .mobileActions button:disabled { opacity: .6; cursor: wait; }
+
+.container { background: #f4f6f9; }
+.controles { display: grid; gap: 12px; background: white; border: 1px solid var(--admin-border); border-radius: 14px; padding: 20px; margin-bottom: 20px; }
+.labelBusca { font-size: .8125rem; font-weight: 700; color: #34445a; }
+.inputBusca { min-height: 48px; margin-top: -4px; border-color: #b8c4d3; border-radius: 8px; }
+.filtroBotao { border-radius: 8px; font-size: .8125rem; color: #526174; padding-inline: 14px; border-color: #c7d1df; }
+.filtroBotao.filtroAtivo, .filtroBotao.filtroAtivo:hover { color: white; }
+.card { border: 1px solid var(--admin-border); border-radius: 14px; padding: 0; box-shadow: none; }
+.modelo { width: auto; }
+.tabela { min-width: 0; }
+.tabela th { padding: 14px 16px; font-weight: 600; font-size: .75rem; color: #526174; background: #f8fafc; }
+.tabela td { padding: 18px 16px; vertical-align: middle; font-size: .875rem; }
+.tabela td:nth-child(2) { min-width: 160px; max-width: 290px; overflow-wrap: anywhere; }
+.tabela td:last-child { width: 225px; }
+.dadosVeiculo { display: block; margin-top: 6px; font-size: .75rem; color: #526174; }
+.preco { font-weight: 700; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.miniaturaFoto, .semFoto { width: 72px; height: 56px; border-radius: 8px; }
+.tagAtivo, .tagVendido, .tagDestaque { display: inline-flex; gap: 4px; font-size: .75rem; line-height: 1.5; white-space: normal; }
+.tagVendido { color: #475569; }
+.acoes { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 8px; }
+.acoes :global(.ui-button) { min-height: 44px; padding: 8px 12px; font-size: .8125rem; }
+.maisAcoes { min-width: 0; }
+.maisAcoes summary { display: flex; align-items: center; gap: 6px; min-height: 44px; padding: 8px 10px; border: 1px solid #cbd5e1; border-radius: 8px; color: #34445a; font-size: .8125rem; font-weight: 600; list-style: none; cursor: pointer; }
+.maisAcoes summary::-webkit-details-marker { display: none; }
+.maisAcoes summary:hover { background: #f1f5f9; }
+.maisAcoes[open] summary { background: #f1f5f9; }
+.menuAcoes { display: grid; gap: 6px; padding: 8px 0; }
+.menuAcoes button { font-size: .8125rem; padding: 10px 12px; min-height: 44px; width: 100%; text-align: left; border: 1px solid #dde4ec; background: white; }
+.menuAcoes .danger { margin-top: 4px; border-color: #fecaca; }
+.vazio { display: grid; justify-items: center; gap: 12px; padding: 48px 20px; }
+.vazio h2 { font-size: 1.125rem; }
+.vazio p { max-width: 44ch; }
+.contagem { font-size: .8125rem; padding-right: 4px; }
+.mobileTop h2 { font-size: 1rem; min-width: 0; overflow-wrap: anywhere; }
+@media (max-width: 1100px) {
+  .desktopTable { display: none; }
+  .card { background: transparent; border: 0; overflow: visible; }
+  .mobileCards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; padding: 0; }
+  .mobileCard { display: flex; flex-direction: column; min-width: 0; border: 1px solid var(--admin-border); border-radius: 14px; background: white; overflow: hidden; }
+  .mobileFoto { width: 100%; aspect-ratio: 16 / 9; height: auto; object-fit: cover; }
+  .mobileSemFoto { display: grid; place-items: center; aspect-ratio: 16 / 9; height: auto; background: #e9eef5; color: #526174; }
+  .mobileTop { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; padding: 20px 16px 12px; }
+  .mobileInfos { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 0 16px 20px; }
+  .mobileInfos div { display: grid; gap: 4px; min-width: 0; }
+  .mobileInfos div:nth-child(2) { grid-column: 1 / -1; grid-row: 1; }
+  .mobileInfos span { font-size: .75rem; color: #526174; }
+  .mobileInfos strong { font-size: .875rem; color: #15202e; font-variant-numeric: tabular-nums; }
+  .mobileInfos div:nth-child(2) strong { font-size: 1.25rem; }
+  .mobileActions { display: block; margin-top: auto; padding: 16px; border-top: 1px solid #e8edf3; }
+  .mobileActions .acoes { flex-wrap: wrap; }
+  .mobileActions .acoes > :global(.ui-button), .mobileActions .maisAcoes { flex: 1; }
+  .mobileActions .maisAcoes summary { justify-content: center; }
+}
+@media (max-width: 600px) {
+  .controles { padding: 16px; }
+  .mobileCards { grid-template-columns: 1fr; }
+  .filtros { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .filtroBotao { white-space: normal; padding: 10px; }
+  .mobileTag { max-width: 90px; flex-shrink: 1; white-space: normal; }
 }

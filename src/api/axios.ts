@@ -18,10 +18,12 @@ api.interceptors.request.use(config => {
 api.interceptors.response.use(
   response => response,
   error => {
-    if (error.response?.status === 401) {
+    const requestToken = error.config?.headers?.Authorization
+    const currentToken = localStorage.getItem('token')
+    if (error.response?.status === 401 && currentToken && requestToken === `Bearer ${currentToken}`) {
       localStorage.removeItem('token')
       localStorage.removeItem('usuario')
-      window.location.href = '/admin/login'
+      window.dispatchEvent(new Event('monky:auth-changed'))
     }
     return Promise.reject(error)
   }

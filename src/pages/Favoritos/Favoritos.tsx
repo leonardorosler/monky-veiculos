@@ -1,108 +1,30 @@
-import { useEffect, useState } from 'react'
-
+import { Link } from 'react-router-dom'
 import { Heart, Search } from 'lucide-react'
-
-import api from '../../api/axios'
-
 import { CardVeiculo } from '../../components/CardVeiculo/CardVeiculo'
 import { Spinner } from '../../components/Spinner/Spinner'
-import { NavBar } from '../../components/NavBar/NavBar'
-
-import type { Veiculo } from '../../types'
-
+import { Feedback } from '../../components/Feedback'
+import { useFavoritos } from '../../contexts/FavoritosContext'
 import styles from './Favoritos.module.css'
 
-const SESSION_KEY = 'catalogo_session_id'
-
-function getSessionId() {
-  let id = localStorage.getItem(SESSION_KEY)
-
-  if (!id) {
-    id = crypto.randomUUID()
-
-    localStorage.setItem(SESSION_KEY, id)
-  }
-
-  return id
-}
-
 export function Favoritos() {
-  const [veiculos, setVeiculos] = useState<Veiculo[]>([])
-
-  const [carregando, setCarregando] = useState(true)
-
-  const sessionId = getSessionId()
-
-  useEffect(() => {
-    carregarFavoritos()
-  }, [])
-
-  async function carregarFavoritos() {
-    try {
-      const { data } = await api.get<Veiculo[]>(`/favoritos?sessionId=${sessionId}`)
-
-      setVeiculos(data)
-    } finally {
-      setCarregando(false)
-    }
-  }
-
-  async function handleDesfavoritar(veiculoId: string) {
-    await api.delete(`/favoritos/${veiculoId}`, {
-      data: { sessionId },
-    })
-
-    setVeiculos((prev) => prev.filter((v) => v.id !== veiculoId))
-  }
-
+  const { veiculos, carregando, erro, carregar } = useFavoritos()
   return (
-    <div className={styles.container}>
-      <NavBar />
-
-      <main className={styles.main}>
+    <main className={styles.container}>
+      <div className={styles.main}>
         <section className={styles.hero}>
-          <div className={styles.badge}>
-            <Heart size={16} />
-            Seus favoritos
-          </div>
-
+          <div className={styles.badge}><Heart size={16} />Seus favoritos</div>
           <h1 className={styles.titulo}>Veículos salvos</h1>
-
-          <p className={styles.descricao}>Acompanhe os veículos que você marcou para comparar ou revisar depois.</p>
+          <p className={styles.descricao}>Guarde suas opções e encontre o veículo ideal com calma.</p>
         </section>
-
-        {carregando ? (
-          <div className={styles.loading}>
-            <Spinner />
-          </div>
-        ) : veiculos.length === 0 ? (
+        {erro && <Feedback mensagem={erro} onRetry={() => void carregar()} />}
+        {carregando ? <Spinner /> : !erro && veiculos.length === 0 ? (
           <div className={styles.vazio}>
-            <div className={styles.vazioIcone}>
-              <Search size={34} />
-            </div>
-
-            <h2>Nenhum veículo salvo</h2>
-
-            <p>Você ainda não adicionou veículos aos favoritos.</p>
+            <Search size={34} aria-hidden="true" /><h2>Seu próximo veículo pode estar aqui</h2>
+            <p>Toque no coração de um veículo para salvá-lo nesta lista.</p>
+            <Link className="ui-button ui-button-primary" to="/catalogo">Explorar o estoque</Link>
           </div>
-        ) : (
-          <>
-            <div className={styles.topoLista}>
-              <p className={styles.resultado}>
-                {veiculos.length} veículo
-                {veiculos.length > 1 ? 's' : ''} salvo
-                {veiculos.length > 1 ? 's' : ''}
-              </p>
-            </div>
-
-            <div className={styles.grid}>
-              {veiculos.map((v) => (
-                <CardVeiculo key={v.id} veiculo={v} favoritado={true} onFavoritar={handleDesfavoritar} />
-              ))}
-            </div>
-          </>
-        )}
-      </main>
-    </div>
+        ) : <><p className={styles.resultado} role="status">{veiculos.length} veículo{veiculos.length === 1 ? '' : 's'} salvo{veiculos.length === 1 ? '' : 's'}</p><div className={styles.grid}>{veiculos.map(veiculo => <CardVeiculo key={veiculo.id} veiculo={veiculo} />)}</div></>}
+      </div>
+    </main>
   )
 }

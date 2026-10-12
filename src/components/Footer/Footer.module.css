@@ -2,7 +2,7 @@
   width: 100%;
   margin-top: auto;
   border-top: 1px solid rgba(255, 255, 255, .09);
-  background: #060a0e;
+  background: var(--site-dark);
 }
 
 .inner {
@@ -20,14 +20,14 @@
 .marcaIcone { width: 42px; height: 38px; object-fit: contain; }
 .marca > div { display: flex; flex-direction: column; line-height: 1; }
 .marca span { color: #fff; font-size: 1.18rem; font-weight: 800; }
-.marca small { margin-top: .25rem; color: #e33840; font-size: .58rem; font-weight: 800; letter-spacing: .16em; }
+.marca small { margin-top: .25rem; color: var(--accent-display); font-size: .75rem; font-weight: 800; letter-spacing: .16em; }
 .links { display: flex; align-items: center; justify-content: center; gap: 2rem; }
 .links button, .links a { position: relative; color: rgba(255, 255, 255, .64); font-size: .74rem; font-weight: 650; cursor: pointer; transition: color 180ms ease; }
-.links button::after, .links a::after { content: ''; position: absolute; left: 0; right: 0; bottom: -.4rem; height: 2px; background: #e33840; transform: scaleX(0); transition: transform 180ms ease; }
+.links button::after, .links a::after { content: ''; position: absolute; left: 0; right: 0; bottom: -.4rem; height: 2px; background: var(--accent-display); transform: scaleX(0); transition: transform 180ms ease; }
 .links button:hover, .links a:hover { color: #fff; }
 .links button:hover::after, .links a:hover::after { transform: scaleX(1); }
 .social { display: flex; align-items: center; gap: 1rem; }
-.social a { width: 32px; height: 32px; display: grid; place-items: center; border: 1px solid rgba(255, 255, 255, .12); border-radius: 50%; color: rgba(255, 255, 255, .82); transition: border-color 180ms ease, color 180ms ease, background 180ms ease; }
+.social a { width: 44px; height: 44px; display: grid; place-items: center; border: 1px solid rgba(255, 255, 255, .12); border-radius: 50%; color: rgba(255, 255, 255, .82); transition: border-color 180ms ease, color 180ms ease, background 180ms ease; }
 .social a:hover { border-color: rgba(227, 56, 64, .52); background: rgba(227, 56, 64, .1); color: #ef444b; }
 .facebookIcon { font-family: Arial, sans-serif; font-size: 1.12rem; font-weight: 800; line-height: 1; }
 .empresa { min-width: 184px; min-height: 44px; padding-left: 1.5rem; display: flex; align-items: center; justify-content: flex-end; gap: .65rem; border-left: 1px solid rgba(255, 255, 255, .1); }
@@ -74,7 +74,7 @@
 
   .links button,
   .links a {
-    min-height: 36px;
+    min-height: 44px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -87,7 +87,7 @@
   .links button::after, .links a::after { display: none; }
 
   .social { justify-content: center; gap: .75rem; }
-  .social a { width: 36px; height: 36px; }
+  .social a { width: 44px; height: 44px; }
 
   .empresa {
     width: 100%;
@@ -100,3 +100,13 @@
     border-left: 0;
   }
 }
+
+.links a, .links button { min-height: 44px; display: inline-flex; align-items: center; font-size: .875rem; }
+.marca small, .empresa > span:first-child { font-size: .75rem; }
+.empresa > span:first-child { color: rgba(255,255,255,.72); }
+.contatos { width: min(calc(100% - 4rem), 1280px); margin: auto; padding: 1.5rem 0; display: flex; flex-wrap: wrap; gap: 1.5rem 2rem; border-bottom: 1px solid rgba(255,255,255,.14); color: #e2e8f0; font-size: .9rem; }
+.contatos > div, .contatos > a { display: flex; align-items: flex-start; gap: .75rem; }
+.contatos svg { flex-shrink: 0; }
+.contatos a { min-height: 44px; }
+.contatos span a { display: block; text-decoration: underline; padding-top: .5rem; }
+@media (max-width: 600px) { .contatos { width: calc(100% - 2rem); flex-direction: column; } }

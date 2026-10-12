@@ -15,7 +15,7 @@ export function MarcasCarrossel({ marcaSelecionada, onSelecionarMarca, variante 
     if (carrosselRef.current) {
       carrosselRef.current.scrollBy({
         left: direcao === 'direita' ? 240 : -240,
-        behavior: 'smooth',
+        behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
       })
     }
   }
@@ -42,7 +42,7 @@ export function MarcasCarrossel({ marcaSelecionada, onSelecionarMarca, variante 
               className={`${styles.carrosselItem} ${ativa ? styles.carrosselItemAtivo : ''}`}
               aria-pressed={ativa}
             >
-              <img src={marca.logo} alt={marca.nome} className={styles.carrosselLogo} />
+              <img src={marca.logo} alt="" className={styles.carrosselLogo} />
               <span>{marca.nome}</span>
             </button>
           )

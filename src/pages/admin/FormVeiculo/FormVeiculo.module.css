@@ -28,7 +28,7 @@
 .erro {
   padding: 0.75rem;
   background-color: #fee2e2;
-  color: #dc2626;
+  color: #991b1b;
   border-radius: 6px;
   font-size: 0.9rem;
 }
@@ -73,7 +73,7 @@
 .dica {
   margin: 0;
   font-size: 0.8rem;
-  color: #888;
+  color: var(--text-secondary);
 }
 
 /* Grid de fotos */
@@ -141,7 +141,7 @@
 .botaoDeletar {
   padding: 0.3rem;
   background-color: #fee2e2;
-  color: #dc2626;
+  color: #991b1b;
   border: none;
   border-radius: 4px;
   cursor: pointer;
@@ -154,10 +154,10 @@
 
 .botaoPrimario {
   padding: 0.9rem 1.2rem;
-  background-color: #1a1a1a;
+  background-color: var(--accent-primary);
   color: #fff;
   border: none;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
@@ -171,3 +171,44 @@
   opacity: 0.6;
   cursor: not-allowed;
 }
+
+.botaoPrimario, .botaoDefinirCapa, .botaoDeletar { min-height: 44px; }
+.botaoPrimario:hover { background: var(--accent-hover); }
+.input { min-height: 48px; border-radius: var(--radius-sm); }
+.fotoItem { padding: 0; }
+.botaoDefinirCapa, .botaoDeletar { font-size: .8rem; }
+
+.container { background: #f4f6f9; }
+.formLayout { display: grid; grid-template-columns: minmax(0, 1fr) 280px; gap: 24px; align-items: start; }
+.form { min-width: 0; gap: 24px; }
+.erroResumo { scroll-margin-top: 96px; }
+.section { display: grid; gap: 20px; padding: 24px; background: white; border: 1px solid var(--admin-border); border-radius: 14px; min-width: 0; }
+.sectionTitle { display: flex; align-items: center; gap: 10px; color: var(--accent-primary); }
+.sectionTitle h2 { font-size: 1.0625rem; }
+.sectionHint { font-size: .875rem; color: #526174; margin-top: -8px; }
+.grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+.campo { min-width: 0; gap: 8px; }
+.label { color: #34445a; font-weight: 700; font-size: .8125rem; }
+.input { width: 100%; min-width: 0; min-height: 48px; padding: 12px; border-color: #b8c4d3; font-size: .9375rem; }
+.input[type='file'] { padding: 12px; background: #f8fafc; border-style: dashed; }
+.input::file-selector-button { font: inherit; padding: 8px 12px; margin-right: 12px; border: 1px solid #cbd5e1; border-radius: 6px; background: white; color: #34445a; cursor: pointer; }
+.textarea { min-height: 132px; }
+.gridFotos { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
+.fotoItem { width: 100%; border-color: #dce4ee; border-radius: 10px; background: #f8fafc; }
+.fotoItemCapa { border-color: var(--accent-primary); }
+.fotoImg { width: 100%; height: auto; aspect-ratio: 4 / 3; }
+.fotoBotoes { padding: 8px; gap: 8px; }
+.tagCapa { font-size: .75rem; padding: 4px 8px; }
+.dica { font-size: .8125rem; }
+.formActions { display: flex; justify-content: flex-end; flex-wrap: wrap; gap: 12px; padding: 20px; border: 1px solid var(--admin-border); border-radius: 14px; background: white; }
+.botaoPrimario { font-size: .875rem; min-height: 44px; padding: 10px 20px; }
+.resumo { position: sticky; top: 96px; display: grid; gap: 20px; padding: 24px; background: #fff; border: 1px solid var(--admin-border); border-radius: 14px; min-width: 0; }
+.resumoIcone { display: grid; place-items: center; width: 56px; height: 56px; background: #f1f5f9; color: #526174; border-radius: 14px; }
+.resumo h2 { font-size: 1rem; }
+.resumoNome { font-weight: 700; overflow-wrap: anywhere; }
+.resumo dl { display: grid; gap: 16px; }
+.resumo dl div { display: grid; gap: 4px; }
+.resumo dt { font-size: .75rem; color: #526174; }
+.resumo dd { font-size: .875rem; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+@media (max-width: 1200px) { .formLayout { grid-template-columns: minmax(0, 1fr); } .resumo { position: static; grid-template-columns: auto 1fr; } .resumo dl, .resumo .dica { grid-column: 1 / -1; } .resumo dl { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+@media (max-width: 600px) { .section { padding: 20px 16px; } .grid { grid-template-columns: 1fr; } .formActions { padding: 16px; } .formActions > * { flex: 1; } .resumo { padding: 20px 16px; } .resumo dl { grid-template-columns: 1fr 1fr; } }

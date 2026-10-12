@@ -1,14 +1,6 @@
-import { useNavigate } from "react-router-dom"
-import styles from './AdminVoltar.module.css'
+import { Link } from 'react-router-dom'
+import { ArrowLeft } from 'lucide-react'
 
-export function AdminVoltar(){
-
-    const navigate = useNavigate()
-
-    return(
-        <button onClick={() => navigate('/admin')} className={styles.botaoVoltar}>
-            ← Voltar
-          </button>
-
-    )
+export function AdminVoltar({ to = '/admin', label = 'Visão geral' }: { to?: string; label?: string }) {
+  return <Link to={to} className="ui-button"><ArrowLeft size={16} aria-hidden="true" />{label}</Link>
 }

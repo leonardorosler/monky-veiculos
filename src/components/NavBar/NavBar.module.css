@@ -75,7 +75,7 @@
 
 .logoSubtitulo {
   margin-top: 0.25rem;
-  color: #b91c1c;
+  color: var(--accent-primary);
   font-size: 0.66rem;
   font-weight: 800;
   letter-spacing: 0.18em;
@@ -150,13 +150,13 @@
 }
 
 .active {
-  color: #b91c1c;
+  color: var(--accent-primary);
   background: rgba(239, 68, 68, 0.1);
 }
 
 .whatsapp {
   justify-content: center;
-  background: linear-gradient(135deg, #ef4444, #b91c1c);
+  background: var(--whatsapp);
   color: #ffffff;
 }
 
@@ -195,7 +195,7 @@
   background: rgba(239, 68, 68, 0.18);
 }
 
-@media (min-width: 900px) {
+@media (min-width: 1100px) {
   .header {
     padding: 1.15rem 2rem;
   }
@@ -252,6 +252,10 @@
     border-radius: 8px;
   }
 }
+
+.active { color: var(--accent-primary); background: var(--accent-soft); }
+.whatsapp:hover { background: var(--whatsapp-hover); color: #fff; }
+.home .navLink:focus-visible { outline-color: #fff; }
 
 @media (max-width: 480px) {
   .header {

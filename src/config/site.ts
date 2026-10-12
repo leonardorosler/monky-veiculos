@@ -1,10 +1,12 @@
 import heroShowroom from '../assets/hero-showroom-v2.png'
 
 const whatsapp = import.meta.env.VITE_WHATSAPP ?? ''
+const brandName = import.meta.env.VITE_BRAND_NAME || 'Monky'
+const brandFullName = import.meta.env.VITE_BRAND_FULL_NAME || `${brandName} Veículos`
 
 export const siteConfig = {
   seo: {
-    title: 'Monky Veículos',
+    title: brandFullName,
     description: 'Veículos revisados, com procedência e as melhores condições do mercado.',
     language: 'pt-BR',
   },
@@ -13,16 +15,17 @@ export const siteConfig = {
     apiUrl: import.meta.env.VITE_API_URL ?? '',
   },
   brand: {
-    name: 'Monky',
+    name: brandName,
     segment: 'Veículos',
-    fullName: 'Monky Veículos',
+    fullName: brandFullName,
     slogan: 'Confiança em cada km',
-    logo: '/monky-mark.png',
-    favicon: '/monky-mark.png',
+    logo: import.meta.env.VITE_BRAND_LOGO || '/monky-mark.png',
+    favicon: import.meta.env.VITE_BRAND_FAVICON || '/monky-mark.png',
   },
   theme: {
-    primary: '#e6383f',
-    primaryDark: '#b71d25',
+    primary: import.meta.env.VITE_THEME_PRIMARY || '#b91c1c',
+    primaryDark: import.meta.env.VITE_THEME_PRIMARY_DARK || '#991b1b',
+    display: import.meta.env.VITE_THEME_DISPLAY || '#f87171',
     dark: '#060a0e',
     light: '#f6f4f1',
   },
@@ -32,14 +35,17 @@ export const siteConfig = {
   },
   contact: {
     whatsapp,
-    phone: '',
-    email: '',
-    address: '',
+    phone: import.meta.env.VITE_PHONE || '',
+    email: import.meta.env.VITE_EMAIL || '',
+    address: import.meta.env.VITE_ADDRESS || '',
+    city: import.meta.env.VITE_CITY || '',
+    hours: import.meta.env.VITE_OPENING_HOURS || '',
+    mapsUrl: import.meta.env.VITE_MAPS_URL || '',
   },
   social: {
-    instagram: '',
-    facebook: '',
-    youtube: '',
+    instagram: import.meta.env.VITE_INSTAGRAM || '',
+    facebook: import.meta.env.VITE_FACEBOOK || '',
+    youtube: import.meta.env.VITE_YOUTUBE || '',
   },
   developer: {
     label: 'Desenvolvido por',
@@ -66,7 +72,7 @@ export const siteConfig = {
       primaryAction: 'Ver estoque',
       secondaryAction: 'Vender meu carro',
       metrics: [
-        { title: '+500', description: 'veículos vendidos' },
+        { title: 'Estoque', description: 'selecionado' },
         { title: 'Atendimento', description: 'especializado' },
         { title: 'Compra segura', description: 'e sem burocracia' },
       ],
@@ -88,7 +94,7 @@ export const siteConfig = {
     },
     institutional: {
       statement: 'Mais que carros, realizamos histórias.',
-      title: 'Por que escolher a Monky Veículos?',
+      title: `Por que escolher a ${brandFullName}?`,
       benefits: [
         { title: 'Veículos revisados', description: 'e com garantia' },
         { title: 'Atendimento', description: 'especializado' },
@@ -97,13 +103,14 @@ export const siteConfig = {
       ],
       testimonial: {
         rating: '★★★★★',
-        text: '“Atendimento excelente e carros de qualidade. Fui muito bem atendido do início ao fim!”',
-        author: 'Cliente Monky',
-        detail: 'Compra verificada',
+        text: import.meta.env.VITE_TESTIMONIAL_TEXT || '',
+        author: import.meta.env.VITE_TESTIMONIAL_AUTHOR || '',
+        detail: import.meta.env.VITE_TESTIMONIAL_DETAIL || '',
       },
     },
   },
   catalog: {
+    categories: ['Hatch', 'Sedã', 'SUV', 'Picape', 'Perua', 'Cupê', 'Conversível', 'Van', 'Utilitário', 'Motocicleta', 'Outro'],
     priceRanges: [
       { label: 'Até R$ 50 mil', value: '50000' },
       { label: 'Até R$ 80 mil', value: '80000' },
@@ -125,7 +132,7 @@ export const siteConfig = {
       { label: 'Híbrido', value: 'HIBRIDO' },
     ],
     transmissions: ['MANUAL', 'AUTOMATICO', 'CVT'],
-    years: ['2026', '2024', '2022', '2020'],
+    years: Array.from({ length: 16 }, (_, index) => String(new Date().getFullYear() + 1 - index)),
     brands: [
       { nome: 'Chevrolet', logo: '/marcas/chevrolet.svg' },
       { nome: 'Citroën', logo: '/marcas/citroen.svg' },
@@ -184,6 +191,6 @@ export const siteConfig = {
 export function getWhatsAppUrl(message?: string) {
   if (!siteConfig.contact.whatsapp) return '#'
 
-  const baseUrl = `https://wa.me/${siteConfig.contact.whatsapp}`
+  const baseUrl = `https://wa.me/${siteConfig.contact.whatsapp.replace(/\D/g, '')}`
   return message ? `${baseUrl}?text=${encodeURIComponent(message)}` : baseUrl
 }

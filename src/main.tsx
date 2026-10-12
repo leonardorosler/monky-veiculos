@@ -8,6 +8,7 @@ document.documentElement.lang = siteConfig.seo.language
 document.title = siteConfig.seo.title
 document.documentElement.style.setProperty('--accent-primary', siteConfig.theme.primary)
 document.documentElement.style.setProperty('--accent-hover', siteConfig.theme.primaryDark)
+document.documentElement.style.setProperty('--accent-display', siteConfig.theme.display)
 document.documentElement.style.setProperty('--site-dark', siteConfig.theme.dark)
 document.documentElement.style.setProperty('--site-light', siteConfig.theme.light)
 

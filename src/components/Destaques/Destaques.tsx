@@ -7,21 +7,29 @@ import { CardVeiculo } from '../CardVeiculo/CardVeiculo'
 import { ArrowRight, BadgeDollarSign, KeyRound, Repeat } from 'lucide-react'
 import { siteConfig } from '../../config/site'
 import type { CSSProperties } from 'react'
+import { usePlano } from '../../contexts/PlanoContext'
+import { Feedback } from '../Feedback'
+import { Spinner } from '../Spinner/Spinner'
 
 const callIcons = [BadgeDollarSign, KeyRound, Repeat]
 
 export function Destaques() {
   const [destaques, setDestaques] = useState<Veiculo[]>([])
+  const [carregando, setCarregando] = useState(true)
+  const [erro, setErro] = useState('')
+  const [tentativa, setTentativa] = useState(0)
+  const { possuiRecurso } = usePlano()
 
   const navigate = useNavigate()
 
   useEffect(() => {
-    api.get<Veiculo[]>('/veiculos/destaques').then(({ data }) => setDestaques(data))
-  }, [])
-
-  if (destaques.length === 0) {
-    return null
-  }
+    const controller = new AbortController()
+    api.get<Veiculo[]>('/veiculos/destaques', { signal: controller.signal })
+      .then(({ data }) => setDestaques(data))
+      .catch(() => { if (!controller.signal.aborted) setErro('Não foi possível carregar os destaques.') })
+      .finally(() => { if (!controller.signal.aborted) setCarregando(false) })
+    return () => controller.abort()
+  }, [tentativa])
 
   return (
     <section className={styles.secao} style={{ '--dealership-image': `url("${siteConfig.assets.dealership}")` } as CSSProperties}>
@@ -37,14 +45,15 @@ export function Destaques() {
           </button>
         </div>
 
-        <div className={styles.grid}>
+        {carregando ? <Spinner /> : erro ? <Feedback mensagem={erro} onRetry={() => { setErro(''); setCarregando(true); setTentativa(value => value + 1) }} /> : destaques.length === 0 ? <p>Confira todas as opções disponíveis em nosso catálogo.</p> : <div className={styles.grid}>
           {destaques.map((veiculo) => (
             <CardVeiculo key={veiculo.id} veiculo={veiculo} />
           ))}
-        </div>
+        </div>}
 
         <div className={styles.chamadas}>
           {siteConfig.home.highlights.calls.map((call, index) => {
+            if (index < 2 && !possuiRecurso('LEADS')) return null
             const Icon = callIcons[index]
             return (
               <button
